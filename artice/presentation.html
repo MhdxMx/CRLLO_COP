@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lycée Luc Okenkali - Articles</title>
+    <script src="../js/storage.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .articles-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-bg) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .articles-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .articles-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .articles-section {
+            padding: 4rem 2rem;
+            background: var(--light-bg);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease-out forwards;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .article-excerpt {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            margin-top: auto;
+            width: auto;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-left: auto;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary i {
+            transition: transform 0.3s ease;
+            margin-left: 6px;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary:hover i {
+            transform: translateX(5px);
+        }
+
+        .back-to-articles {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .back-to-articles:hover {
+            color: var(--secondary-color);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .article-full {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .article-full .article-content {
+            padding: 0;
+        }
+
+        .article-full .article-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-full .article-meta {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .article-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .articles-header {
+                padding: 2rem 1rem;
+            }
+
+            .articles-header h1 {
+                font-size: 2rem;
+            }
+
+            .articles-section {
+                padding: 2rem 1rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-full {
+                padding: 1.5rem;
+            }
+
+            .article-full .article-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <img src="../img/logo.jpg" alt="Logo du lycée" class="logo1">
+        <ul>
+            <li><a href="../index.html">Accueil</a></li>
+            <li><a href="presentation.html" class="active">Articles</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+            <li><a href="../admin.html">Admin</a></li>
+        </ul>
+        <div class="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </nav>
+
+    <!-- En-tête des articles -->
+    <header class="articles-header">
+        <h1>Nos Articles</h1>
+        <p>Découvrez les dernières actualités et informations du Lycée Luc Okenkali</p>
+    </header>
+
+    <!-- Section des articles -->
+    <section class="articles-section">
+        <div id="articles-container">
+            <div class="articles-grid" id="articles-grid"></div>
+            <div class="article-full" id="article-full" style="display: none;"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>Email : crllo2025@gmail.com</li>
+                    <li>Téléphone : +241 74 65 47 42</li>
+                    <li>Adresse : llo</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="presentation.html">Articles</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Horaires</h3>
+                <ul>
+                    <li>Lundi - Vendredi : 7h30 - 17h30</li>
+                    <li>Samedi : 8h00 - 12h00</li>
+                    <li>Dimanche : Fermé</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Lycée Luc Okenkali. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu hamburger
+        document.querySelector('.menu-icon').addEventListener('click', function() {
+            document.querySelector('.navbar').classList.toggle('open');
+        });
+
+        // Fonction pour formater la date
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            return date.toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        // Fonction pour parser le contenu Quill
+        function parseQuillContent(content) {
+            try {
+                const delta = JSON.parse(content);
+                let html = '';
+                delta.ops.forEach(op => {
+                    if (op.insert) {
+                        if (typeof op.insert === 'string') {
+                            html += `<p>${op.insert}</p>`;
+                        }
+                    }
+                });
+                return html;
+            } catch (e) {
+                return content;
+            }
+        }
+
+        // Charger les articles
+        function loadArticles() {
+            const articlesGrid = document.getElementById('articles-grid');
+            const articles = ArticleStorage.getArticles();
+            
+            if (articles.length === 0) {
+                articlesGrid.innerHTML = '<p class="no-articles">Aucun article disponible pour le moment.</p>';
+                return;
+            }
+
+            articlesGrid.innerHTML = '';
+            articles.forEach(article => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'article-card';
+                articleCard.innerHTML = `
+                    <div class="article-content">
+                        <h2 class="article-title">${article.title}</h2>
+                        <div class="article-meta">
+                            <span>Par ${article.author}</span>
+                            <span>${formatDate(article.date)}</span>
+                        </div>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <button onclick="showFullArticle('${article.id}')" class="btn-primary">
+                            <span>Lire la suite</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                articlesGrid.appendChild(articleCard);
+            });
+        }
+
+        // Afficher un article complet
+        function showFullArticle(articleId) {
+            const articleFull = document.getElementById('article-full');
+            const articlesGrid = document.getElementById('articles-grid');
+            const article = ArticleStorage.getArticleById(articleId);
+
+            if (article) {
+                articleFull.innerHTML = `
+                    <a href="#" onclick="showArticlesList()" class="back-to-articles">← Retour aux articles</a>
+                    <div class="article-content">
+                        <h1 class="article-title">${article.title}</h1>
+                        <div class="article-meta">
+                            <span>Par ${article.author}</span>
+                            <span>${formatDate(article.date)}</span>
+                        </div>
+                        <div class="article-body">
+                            ${parseQuillContent(article.content)}
+                        </div>
+                    </div>
+                `;
+                
+                articlesGrid.style.display = 'none';
+                articleFull.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Retourner à la liste des articles
+        function showArticlesList() {
+            document.getElementById('articles-grid').style.display = 'grid';
+            document.getElementById('article-full').style.display = 'none';
+            return false;
+        }
+
+        // Charger les articles au chargement de la page
+        document.addEventListener('DOMContentLoaded', loadArticles);
+
+        // Gérer les liens d'ancrage dans l'URL
+        window.addEventListener('hashchange', function() {
+            const articleId = window.location.hash.slice(1);
+            if (articleId) {
+                showFullArticle(articleId);
+            } else {
+                showArticlesList();
+            }
+        });
+    </script>
+</body>
+</html>
